@@ -2,8 +2,6 @@ import os
 import sys
 import time
 import json
-import requests
-import argparse
 if sys.platform == "win32":
     print("Some features are not supported on Windows")
     print("Please use Linux or MacOS")
@@ -102,6 +100,8 @@ def python_implementation():
     return sys.implementation
 
 def python_shell():
+    print("Python shell started.")
+    print("Type exit to exit the shell.")
     while True:
         try:
             cmd = input(">>> ")
@@ -153,6 +153,94 @@ def get_system_info_json():
 
 def get_system_info_pretty():
     return json.dumps(get_system_info(), indent=4, sort_keys=True)
+
+def windows_support_notice():
+    print("""Windows uses a different command line interface. This command line interface cannot do everything that the CLI on Linux and MacOS can do.
+    Please Use WSL, Linux or MacOS. *NO SUPPORT WILL BE PROVIDED FOR WINDOWS*""")
+
+class Experimental:
+    def __init__(self):
+        print("NOTE: Experimental features are still under heavy development.")
+        print("Please use with caution.")
+
+
+class Debug():
+    def __init__(self):
+        self.debug = True
+        self.debug_print = True
+        self.debug_time = True
+        self.debug_json = True
+        self.debug_pretty = True
+        self.debug_time_start = time.time()
+        self.debug_time_end = time.time()
+        self.debug_time_total = time.time()
+    
+    def check_debug_enabled(self):
+        if self.debug is False:
+            self.debug_print = False
+            self.debug_json = False
+            self.debug_pretty = False
+            self.debug_time = False
+
+    def debug_disabled(self, debugtype):
+        if debugtype:
+            print("Debugging is disabled for " + debugtype)
+        else:
+            print("Debugging is disabled")
+            print("Please enable debugging for this feature")
+    def print(self, msg):
+        if self.debug_print:
+            print(msg)
+        else:
+            self.debug_disabled("print")
+    def time(self, msg, code):
+        if self.debug_time:
+            time1 = time.gmtime()
+            eval(code)
+            return time.gmtime - time1
+        else:
+            self.debug_disabled("time")
+    def json(self, msg):
+        if self.debug_json:
+            print(json.dumps(msg, indent=4))
+        else:
+            self.debug_disabled("json")
+    def pretty(self, msg):
+        if self.debug_pretty:
+            print(json.dumps(msg, indent=4, sort_keys=True))
+        else:
+            self.debug_disabled("pretty")
+    def time_start(self, msg):
+        if self.debug_time:
+            self.debug_time_start = time.gmtime()
+        else:
+            self.debug_disabled("time")
+    def time_end(self, msg):
+        if self.debug_time:
+            self.debug_time_end = time.gmtime()
+            self.debug_time_total = self.debug_time_end - self.debug_time_start
+            print(msg + ": " + str(self.debug_time_total))
+        else:
+            self.debug_disabled("time")
+    def time_total(self, msg):
+        if self.debug_time:
+            self.debug_time_total = self.debug_time_end - self.debug_time_start
+            print(msg + ": " + str(self.debug_time_total))
+        else:
+            self.debug_disabled("time")
+
+    def set_debug(self, debug):
+        self.debug = debug
+        if self.debug:
+            self.debug_print = True
+            self.debug_time = True
+            self.debug_json = True
+            self.debug_pretty = True
+        else:
+            self.debug_print = False
+            self.debug_time = False
+            self.debug_json = False
+            self.debug_pretty = False
 
 
 # If the script is not imported, run a frontend

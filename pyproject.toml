@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "cobrashell"
+version = "0.1.0"
+description = "A console-based Python interperter (somewhat)"
+authors = ["EnderC00kiez <EnderC00kiez@outlook.com>"]
+license = "The Unlicense"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
