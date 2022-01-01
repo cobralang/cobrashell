@@ -2,6 +2,10 @@ import os
 import sys
 import time
 import json
+import tkinter as tk
+import urllib3
+
+
 if sys.platform == "win32":
     print("Some features are not supported on Windows")
     print("Please use Linux or MacOS")
@@ -158,10 +162,34 @@ def windows_support_notice():
     print("""Windows uses a different command line interface. This command line interface cannot do everything that the CLI on Linux and MacOS can do.
     Please Use WSL, Linux or MacOS. *NO SUPPORT WILL BE PROVIDED FOR WINDOWS*""")
 
+def duckduckgo_answers(query):
+    http = urllib3.PoolManager()
+    r = http.request('GET', 'https://api.duckduckgo.com/?q=' + query + '&format=json&pretty=1')
+    return json.loads(r.data.decode('utf-8'))
+
+def duckduckgo_answers_pretty(query):
+    return json.dumps(duckduckgo_answers(query), indent=4, sort_keys=True)
+
+def duckduckgo_answers_json(query):
+    return json.dumps(duckduckgo_answers(query))
+
+
+
+
 class Experimental:
     def __init__(self):
         print("NOTE: Experimental features are still under heavy development.")
         print("Please use with caution.")
+    def gui(self):
+        self.root = tk.Tk()
+        self.root.title("Experimental")
+        self.root.geometry("300x300")
+        self.root.resizable(False, False)
+        self.root.configure(background="#000000")
+        self.root.mainloop()
+        # Add the commands to the GUI
+        
+
 
 
 class Debug():
