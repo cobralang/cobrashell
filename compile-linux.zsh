@@ -1,1 +1,1 @@
-sudo pyinstaller --onefile main.py
+sudo pyinstaller main.py --onefile

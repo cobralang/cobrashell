@@ -173,6 +173,24 @@ def duckduckgo_answers_pretty(query):
 def duckduckgo_answers_json(query):
     return json.dumps(duckduckgo_answers(query))
 
+def clear():
+    if sys.platform == "win32":
+        os.system("cls")
+    elif sys.platform == "darwin" or sys.platform == "linux":
+        os.system("clear")
+    else:
+        print("Platform not supported.")
+
+def cls():
+    if sys.platform == "win32":
+        os.system("cls")
+    elif sys.platform == "darwin" or sys.platform == "linux":
+        os.system("clear")
+    else:
+        print("Platform not supported.")
+    
+
+
 
 
 
@@ -188,6 +206,8 @@ class Experimental:
         self.root.configure(background="#000000")
         self.root.mainloop()
         # Add the commands to the GUI
+        
+            
         
 
 
@@ -278,6 +298,8 @@ if __name__ == "__main__":
     while command != "exit":
         try:
             exec(command + "()")
+        except NameError:
+            print(shell_exec(command))
         except BaseException as e:
             print(e)
         command = input(">>> ")
