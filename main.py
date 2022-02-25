@@ -73,6 +73,9 @@ def get_uptime():
     else:
         return("Platform not supported.")
 
+def shell_exec_wa(command):
+    os.system(command)
+
 def get_cpu_usage():
     if platformsupport:
         return shell_exec("top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'")
@@ -102,6 +105,7 @@ def python_version_info():
 
 def python_implementation():
     return sys.implementation
+
 
 def python_shell():
     print("Python shell started.")
@@ -299,9 +303,11 @@ if __name__ == "__main__":
         try:
             exec(command + "()")
         except NameError:
-            print(shell_exec(command))
+            print(shell_exec_wa(command))
         except SyntaxError:
-            print(shell_exec(command))
+            print(shell_exec_wa(command))
+        except TypeError:
+            pass
         except BaseException as e:
             print(e)
         command = input(">>> ")
