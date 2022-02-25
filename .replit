@@ -1,0 +1,2 @@
+language = "python"
+run = "git pull && python3 main.py"

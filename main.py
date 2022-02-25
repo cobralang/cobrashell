@@ -69,7 +69,7 @@ def get_os():
 
 def get_uptime():
     if platformsupport:
-        return shell_exec("uptime -p")
+        return shell_exec("uptime")
     else:
         return("Platform not supported.")
 
@@ -299,6 +299,8 @@ if __name__ == "__main__":
         try:
             exec(command + "()")
         except NameError:
+            print(shell_exec(command))
+        except SyntaxError:
             print(shell_exec(command))
         except BaseException as e:
             print(e)
