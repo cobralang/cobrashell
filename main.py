@@ -4,6 +4,7 @@ import time
 import json
 import tkinter as tk
 import urllib3
+from pynput import keyboard
 
 
 if sys.platform == "win32":
@@ -87,6 +88,7 @@ def get_ram_usage():
         return shell_exec("free -m | awk 'NR==2{printf \"RAM: %s/%sMB (%s%%)\", $3,$2,$3*100/$2 }'")
     else:
         return("Platform not supported.")
+
 
 def get_disk_usage():
     if platformsupport:
@@ -192,8 +194,11 @@ def cls():
         os.system("clear")
     else:
         print("Platform not supported.")
-    
 
+def on_press(key):
+    print(key)
+listener = keyboard.Listener(
+    on_press=on_press)
 
 
 
@@ -294,7 +299,7 @@ class Debug():
             self.debug_json = False
             self.debug_pretty = False
 
-
+listener.start()
 # If the script is not imported, run a frontend
 if __name__ == "__main__":
     # Create a custom REPL
@@ -303,9 +308,9 @@ if __name__ == "__main__":
         try:
             exec(command + "()")
         except NameError:
-            print(shell_exec_wa(command))
+            shell_exec_wa(command)
         except SyntaxError:
-            print(shell_exec_wa(command))
+            shell_exec_wa(command)
         except TypeError:
             pass
         except BaseException as e:
