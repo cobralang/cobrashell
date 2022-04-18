@@ -1,4 +1,4 @@
 {
   "unix-command": "zsh -c %s",
-  "nt-command": "cmd /C %s",
+  "nt-command": "cmd /C %s"
 }
